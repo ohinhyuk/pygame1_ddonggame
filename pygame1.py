@@ -11,7 +11,7 @@ pygame.init()
 
 
 # 화면 크기 설정
-screen_width = 480
+screen_width = 1000
 screen_height = 640
 screen = pygame.display.set_mode((screen_width,screen_height))
 
@@ -47,6 +47,36 @@ ddong_y_pos = 0
 ddong_speed = 10
 ddong_count = 0
 
+#똥2
+ddong2 = pygame.image.load(os.path.join(image_path,"ddong.png"))
+ddong2_size = ddong.get_rect().size
+ddong2_width = ddong_size[0] *2
+ddong2_height = ddong_size[1] *2
+ddong2_x_pos = random.randint(0,screen_width - ddong_width)
+ddong2_y_pos = 0 
+ddong2_speed = 10
+ddong2_count = 0
+ddong2_on = False
+#똥3
+ddong3 = pygame.image.load(os.path.join(image_path,"ddong.png"))
+ddong3_size = ddong.get_rect().size
+ddong3_width = ddong_size[0] *2
+ddong3_height = ddong_size[1] *2
+ddong3_x_pos = random.randint(0,screen_width - ddong_width)
+ddong3_y_pos = 0 
+ddong3_speed = 10
+ddong3_count = 0
+ddong3_on = False
+#똥4
+ddong4 = pygame.image.load(os.path.join(image_path,"ddong.png"))
+ddong4_size = ddong.get_rect().size
+ddong4_width = ddong_size[0] *2
+ddong4_height = ddong_size[1] *2
+ddong4_x_pos = random.randint(0,screen_width - ddong_width)
+ddong4_y_pos = 0 
+ddong4_speed = 10
+ddong4_count = 0
+ddong4_on = False
 # 방어막 아이템 생성
 cloaking = pygame.image.load(os.path.join(image_path,"venci.png"))
 cloaking_size = cloaking.get_rect().size
@@ -64,8 +94,8 @@ jordany_size = jordany.get_rect().size
 jordany_width = jordany_size[0]
 jordany_height = jordany_size[1]
 jordany_x_pos = random.randint(0,screen_width-jordany_width)
-jordany_y_pos = -1 *jordany_height
-jordany_speed = 1
+jordany_y_pos = 0
+jordany_speed = 20
 # jordany_occur = False
 
 #스킬
@@ -118,11 +148,28 @@ bumerang_get_height = bumerang_get_size[1]
 bumerang_get_x_pos = random.randint(0,screen_width-bumerang_get_width)
 bumerang_get_y_pos = screen_height - bumerang_get_height
 bumerang_get_on = False
+
+# 250점일 때 존야 사용 가능
+zoneya = pygame.image.load(os.path.join(image_path,"zoneya.png"))
+zoneya_get_size = zoneya.get_rect().size
+zoneya_width = zoneya_get_size[0]
+zoneya_height = zoneya_get_size[1]
+zoneya_x_pos = -1 * zoneya_width
+zoneya_y_pos = 100
+zoneya_on = False
+
+zoneya_background = pygame.image.load(os.path.join(image_path,"zoneya_background.png"))
+zoneya_background_get_size = zoneya_background.get_rect().size
+zoneya_background_width = zoneya_background_get_size[0]
+zoneya_background_height = zoneya_background_get_size[1]
+zoneya_background_x_pos = -1 * zoneya_background_width
+zoneya_background_y_pos = 50
+
 # 캐릭터 이동 방향
 to_x = 0
 
 # 이동 속도
-character_x_speed = 5
+character_x_speed = 8
 
 #폰트
 game_font = pygame.font.Font(None,40)
@@ -144,11 +191,12 @@ else :
     _running = False
     running = False
 
-
+print("로딩중...")
+time.sleep(3)
 while _running:
     while running:
         dt = clock.tick(30)
-
+        
         # 2. 이벤트 처리 (키보드,마우스 등)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -157,11 +205,9 @@ while _running:
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
                     to_x -= character_x_speed
-                elif event.key ==pygame.K_RIGHT:
+                if event.key ==pygame.K_RIGHT:
                     to_x += character_x_speed
-                elif event.key ==pygame.K_SPACE:
-                    
-                        
+                if event.key ==pygame.K_SPACE:                        
                         #1) 메테오 + 마법
                     if number =="1":    
                         if metteo_on ==True:    
@@ -171,18 +217,52 @@ while _running:
                             #2) 표창
                     elif number =="2":
                         if phochang_on ==True:
-                            phochang_speed = -200
+                            phochang_speed = -50
                             phochang_on = False
                             #3 부메랑
                     elif number =="3":
                         if bumerang_on ==True and bumerang_get_on ==True:
                             bumerang_speed = 30 * bumerang_dir
-                            bumerang_on = False
-                        pass
+                            bumerang_on = False                    
+                if event.key == pygame.K_3:
+                    if zoneya_on ==True:
+                        zoneya_on = False
+                        zoneya_background_x_pos = screen_width/2 - zoneya_background_width/2
+                        zoneya_background_y_pos = screen_height/2 - zoneya_background_height/2
+                        time.sleep(2)
+                        zoneya_x_pos = -1 * zoneya_width
+                        zoneya_y_pos = 100
+                        zoneya_background_x_pos = -1 * zoneya_background_width
+                        zoneya_background_y_pos = 50
+                        ddong_speed = 10
+                        ddong2_speed = 10
+                        ddong3_speed = 10
+                        ddong4_speed = 10
+                        if ddong_y_pos > 1:
+                            ddong_y_pos = -1 *ddong_height
+                        if ddong2_y_pos > 1:
+                            ddong2_y_pos = -1 *ddong2_height
+                        if ddong3_y_pos > 1:
+                            ddong3_y_pos = -1 *ddong3_height
+                        if ddong4_y_pos > 1:
+                            ddong4_y_pos = -1 *ddong4_height
+                        
+                        
+                        
+
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                     to_x = 0
         # 3. 게임 캐릭터 위치 정의
+
+        #존야 
+        if ddong_count ==200 or ddong_count ==500 or ddong_count==900 :
+            zoneya_on = True
+        
+        if zoneya_on == True :
+            zoneya_x_pos = 10
+        
+
 
         character_x_pos += to_x
 
@@ -191,19 +271,44 @@ while _running:
         elif character_x_pos > screen_width - character_width:
             character_x_pos = screen_width - character_width
         
-        ddong_y_pos += ddong_speed
-        if ddong_y_pos >screen_height:
-            ddong_y_pos = 0
-            ddong_x_pos = random.randint(0,screen_width-ddong_width)
-            #점점 빨라지게
-            ddong_speed += 1
-            ddong_count += 1
 
+        ddong_y_pos += ddong_speed
+        if ddong_count > 10:
+            ddong2_on = True
+        if ddong_count > 80:
+            ddong3_on = True
+        if ddong_count >120:
+            ddong4_on = True
+        if ddong2_on ==True:
+            ddong2_y_pos += ddong2_speed
+        if ddong3_on ==True:
+            ddong3_y_pos += ddong3_speed
+        if ddong4_on ==True:
+            ddong4_y_pos += ddong4_speed
+        if ddong_y_pos >screen_height:
+            ddong_y_pos = 0            
+            ddong_x_pos = random.randint(0,screen_width-ddong_width) 
+            ddong_speed += 0.3
+            ddong_count += 1          
+        if ddong2_y_pos >screen_height:
+            ddong2_y_pos = 0
+            ddong2_x_pos = random.randint(0,screen_width-ddong_width)
+            ddong2_speed += 0.4
+            ddong_count += 1
+        if ddong3_y_pos >screen_height:
+            ddong3_y_pos = 0
+            ddong3_x_pos = random.randint(0,screen_width-ddong_width)
+            ddong3_speed += 0.6
+            ddong_count += 1
+        if ddong4_y_pos >screen_height:
+            ddong4_y_pos = 0
+            ddong4_x_pos = random.randint(0,screen_width-ddong_width)
+            ddong4_speed += 1
+            ddong_count += 1
         cloaking_y_pos += cloaking_speed
         if cloaking_y_pos > screen_height-cloaking_height:
             cloaking_y_pos = screen_height-cloaking_height
         
-        jordany_y_pos += jordany_speed
         if jordany_y_pos > screen_height -jordany_height:
             jordany_y_pos = screen_height -jordany_height
         #1#메테오
@@ -217,7 +322,7 @@ while _running:
         #2 표창
         elif number =="2":
             phochang_y_pos += phochang_speed
-            if phochang_y_pos <-500:
+            if phochang_y_pos <-200:
                 phochang_y_pos = screen_height - phochang_height
                 phochang_x_pos = character_x_pos + character_width/2 -phochang_width/2
                 phochang_on = True
@@ -247,6 +352,18 @@ while _running:
         ddong_rect = ddong.get_rect()
         ddong_rect.left = ddong_x_pos
         ddong_rect.top = ddong_y_pos
+
+        ddong2_rect = ddong2.get_rect()
+        ddong2_rect.left = ddong2_x_pos
+        ddong2_rect.top = ddong2_y_pos
+        
+        ddong3_rect = ddong3.get_rect()
+        ddong3_rect.left = ddong3_x_pos
+        ddong3_rect.top = ddong3_y_pos
+        
+        ddong4_rect = ddong4.get_rect()
+        ddong4_rect.left = ddong4_x_pos
+        ddong4_rect.top = ddong4_y_pos
 
         cloaking_rect = cloaking.get_rect()
         cloaking_rect.left = cloaking_x_pos
@@ -297,11 +414,48 @@ while _running:
                 cloaking_speed = 10
             else:         
                 running = False
+        
+        if character_rect.colliderect(ddong2_rect):
+            if cloaking_occur == True:
+                ddong2_x_pos = random.randint(0,screen_width-ddong2_width)
+                ddong2_y_pos = 0
+                cloaking_occur = False
+                cloaking_y_pos = 0
+                cloaking_x_pos = random.randint(0,screen_width-cloaking_width)
+                cloaking_speed = 10
+            else:         
+                running = False
+        
+        if character_rect.colliderect(ddong3_rect):
+            if cloaking_occur == True:
+                ddong3_x_pos = random.randint(0,screen_width-ddong3_width)
+                ddong3_y_pos = 0
+                cloaking_occur = False
+                cloaking_y_pos = 0
+                cloaking_x_pos = random.randint(0,screen_width-cloaking_width)
+                cloaking_speed = 10
+            else:         
+                running = False
+        
+        if character_rect.colliderect(ddong4_rect):
+            if cloaking_occur == True:
+                ddong4_x_pos = random.randint(0,screen_width-ddong4_width)
+                ddong4_y_pos = 0
+                cloaking_occur = False
+                cloaking_y_pos = 0
+                cloaking_x_pos = random.randint(0,screen_width-cloaking_width)
+                cloaking_speed = 10
+            else:         
+                running = False
 
         if character_rect.colliderect(jordany_rect):
+            jordany_x_pos = random.randint(0,screen_width - jordany_width)
             jordany_y_pos = 0
-            character_x_speed += 5
-        
+            if character_x_speed >28:
+                character_x_speed += 0
+
+            else:
+                character_x_speed += 5       
 
         #1)메테오+마법
         if number =="1":
@@ -310,9 +464,28 @@ while _running:
                 magic_x_pos = character_x_pos
             if metteo_rect.colliderect(ddong_rect):
                 ddong_count +=1
-                ddong_speed +=1
+                ddong_speed +=0.3
                 ddong_x_pos = random.randint(0,screen_width - ddong_width)
                 ddong_y_pos = 0
+                jordany_y_pos += jordany_speed *2
+            if metteo_rect.colliderect(ddong2_rect):
+                ddong_count +=1
+                ddong2_speed +=0.4
+                ddong2_x_pos = random.randint(0,screen_width - ddong2_width)
+                ddong2_y_pos = 0
+                jordany_y_pos += jordany_speed *2
+            if metteo_rect.colliderect(ddong3_rect):
+                ddong_count +=1
+                ddong3_speed +=0.6
+                ddong3_x_pos = random.randint(0,screen_width - ddong3_width)
+                ddong3_y_pos = 0
+                jordany_y_pos += jordany_speed *2
+            if metteo_rect.colliderect(ddong4_rect):
+                ddong_count +=1
+                ddong4_speed +=1
+                ddong4_x_pos = random.randint(0,screen_width - ddong4_width)
+                ddong4_y_pos = 0
+                jordany_y_pos += jordany_speed *2
 
         #2 표창
         elif number =="2":
@@ -321,17 +494,55 @@ while _running:
                 phochang_on =True
             if phochang_rect.colliderect(ddong_rect):
                 ddong_count +=1
-                ddong_speed +=1
+                ddong_speed +=0.3
                 ddong_x_pos = random.randint(0,screen_width - ddong_width)
                 ddong_y_pos = 0
+                jordany_y_pos += jordany_speed *4
+            if phochang_rect.colliderect(ddong2_rect):
+                ddong_count +=1
+                ddong2_speed +=0.4
+                ddong2_x_pos = random.randint(0,screen_width - ddong2_width)
+                ddong2_y_pos = 0
+                jordany_y_pos += jordany_speed *4
+            if phochang_rect.colliderect(ddong3_rect):
+                ddong_count +=1
+                ddong3_speed +=0.6
+                ddong3_x_pos = random.randint(0,screen_width - ddong3_width)
+                ddong3_y_pos = 0
+                jordany_y_pos += jordany_speed *4
+            if phochang_rect.colliderect(ddong4_rect):
+                ddong_count +=1
+                ddong4_speed +=1
+                ddong4_x_pos = random.randint(0,screen_width - ddong4_width)
+                ddong4_y_pos = 0
+                jordany_y_pos += jordany_speed *4
 
         #3 부메랑
         elif number =="3":
             if bumerang_rect.colliderect(ddong_rect):
                 ddong_count +=1
-                ddong_speed +=1
+                ddong_speed +=0.3
                 ddong_x_pos = random.randint(0,screen_width - ddong_width)
                 ddong_y_pos = 0
+                jordany_y_pos += jordany_speed
+            if bumerang_rect.colliderect(ddong2_rect):
+                ddong_count +=1
+                ddong2_speed +=0.4
+                ddong2_x_pos = random.randint(0,screen_width - ddong2_width)
+                ddong2_y_pos = 0
+                jordany_y_pos += jordany_speed
+            if bumerang_rect.colliderect(ddong3_rect):
+                ddong_count +=1
+                ddong3_speed +=0.6
+                ddong3_x_pos = random.randint(0,screen_width - ddong3_width)
+                ddong3_y_pos = 0
+                jordany_y_pos += jordany_speed
+            if bumerang_rect.colliderect(ddong4_rect):
+                ddong_count +=1
+                ddong4_speed +=1
+                ddong4_x_pos = random.randint(0,screen_width - ddong4_width)
+                ddong4_y_pos = 0
+                jordany_y_pos += jordany_speed
             if character_rect.colliderect(bumerang_get_rect):
                 bumerang_get_on = True
                 bumerang_get_x_pos = character_x_pos + character_width/2 - bumerang_get_width/2
@@ -341,12 +552,18 @@ while _running:
         ddong_number = game_font.render(str(ddong_count),True,(0,0,0))
 
         # 5. 화면에 그리기
+        
         screen.blit(background,(0,0))
+        screen.blit(zoneya_background,(zoneya_background_x_pos,zoneya_background_y_pos))
         screen.blit(character,(character_x_pos,character_y_pos))
         screen.blit(ddong,(ddong_x_pos,ddong_y_pos))
+        screen.blit(ddong2,(ddong2_x_pos,ddong2_y_pos))
+        screen.blit(ddong3,(ddong3_x_pos,ddong3_y_pos))
+        screen.blit(ddong4,(ddong4_x_pos,ddong4_y_pos))
         screen.blit(ddong_number, (10,10))
         screen.blit(cloaking,(cloaking_x_pos,cloaking_y_pos))
         screen.blit(jordany,(jordany_x_pos,jordany_y_pos))
+        screen.blit(zoneya,(zoneya_x_pos,zoneya_y_pos))
         
         #1)메테오 + 마법
         if number == "1":
@@ -368,8 +585,8 @@ while _running:
         , True , (0,0,0))
     game_over2 = gameover_font.render("다시 하시겠습니까?" , True,(0,0,0))
     screen.blit(background,(0,0))
-    screen.blit(game_over,(80 , screen_height/2- 50))
-    screen.blit(game_over2,(90,screen_height/2 - 10))
+    screen.blit(game_over,(screen_width/2 - 150 , screen_height/2- 50))
+    screen.blit(game_over2,(screen_width/2 - 140,screen_height/2 - 10))
     
     pygame.display.update() 
     for event in pygame.event.get():
@@ -385,7 +602,12 @@ pygame.quit()
 # 위 준비물을 pygame1_image 폴더에 넣으면 사용할 수 있다.
 
 
+# 서풍? 같은걸로
+# # 똥 위로 다 보내는 것 
 
-#표창 속도를 늦춰야 부딪히겠구나 띄엄띄엄 움직이니까
-#알림으로 어떤 무기 선택할지 받아오고 그에 맞게 case 함수로 어떤 무기 쓸지 선택
-                        
+#그리고 이제 아이템 판정 어떻게 잘할수 있는지 알아보기
+
+# 무기 업그레이드
+#표창 25 -> 35 -> 45 로 하거나 아니면 여러 갈래
+#메테오 점점 크게
+# 부메랑도 커지게
