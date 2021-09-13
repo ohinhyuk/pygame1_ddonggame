@@ -149,7 +149,7 @@ bumerang_get_x_pos = random.randint(0,screen_width-bumerang_get_width)
 bumerang_get_y_pos = screen_height - bumerang_get_height
 bumerang_get_on = False
 
-# 250점일 때 존야 사용 가능
+# 200/500/900점일 때 존야 사용 가능
 zoneya = pygame.image.load(os.path.join(image_path,"zoneya.png"))
 zoneya_get_size = zoneya.get_rect().size
 zoneya_width = zoneya_get_size[0]
@@ -203,10 +203,11 @@ while _running:
                 running = False
 
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
-                    to_x -= character_x_speed
+                
                 if event.key ==pygame.K_RIGHT:
                     to_x += character_x_speed
+                if event.key == pygame.K_LEFT:
+                    to_x -= character_x_speed
                 if event.key ==pygame.K_SPACE:                        
                         #1) 메테오 + 마법
                     if number =="1":    
@@ -262,8 +263,6 @@ while _running:
         if zoneya_on == True :
             zoneya_x_pos = 10
         
-
-
         character_x_pos += to_x
 
         if character_x_pos < 0 :
@@ -318,7 +317,18 @@ while _running:
                 metteo_y_pos = -3000
                 metteo_on = True
                 metteo_speed = 0
-            
+            if ddong_count > 50:
+                metteo = pygame.transform.scale(metteo, (200,200))
+                metteo_width = metteo.get_rect().size[0]
+                metteo_height = metteo.get_rect().size[1]
+            if ddong_count > 100:
+                metteo = pygame.transform.scale(metteo, (300,300))
+                metteo_width = metteo.get_rect().size[0]
+                metteo_height = metteo.get_rect().size[1]
+            if ddong_count > 200:
+                metteo = pygame.transform.scale(metteo, (400,400))
+                metteo_width = metteo.get_rect().size[0]
+                metteo_height = metteo.get_rect().size[1]
         #2 표창
         elif number =="2":
             phochang_y_pos += phochang_speed
@@ -327,6 +337,12 @@ while _running:
                 phochang_x_pos = character_x_pos + character_width/2 -phochang_width/2
                 phochang_on = True
                 phochang_speed = 0
+            if ddong_count >100:
+                phochang = pygame.transform.scale(phochang,(55,55))
+                phochang_width = phochang.get_rect().size[0]
+                phochang_height = phochang.get_rect().size[1]
+                
+            
         #3부메랑
         elif number =="3":
             bumerang_x_pos += bumerang_speed
@@ -341,7 +357,12 @@ while _running:
                 bumerang_speed = 0
                 bumerang_dir = 1
                 bumerang_on =True
-
+            if ddong_count > 150 :
+                bumerang = pygame.transform.scale(bumerang,(210,210))
+                bumerang_width = bumerang.get_rect().size[0]
+                bumerang_height = bumerang.get_rect().size[1]
+                bumerang_y_pos = screen_height/2 - bumerang_height/2
+            
         # 4. 충돌 처리
 
 
@@ -451,7 +472,7 @@ while _running:
         if character_rect.colliderect(jordany_rect):
             jordany_x_pos = random.randint(0,screen_width - jordany_width)
             jordany_y_pos = 0
-            if character_x_speed >28:
+            if character_x_speed >23:
                 character_x_speed += 0
 
             else:
@@ -524,25 +545,25 @@ while _running:
                 ddong_speed +=0.3
                 ddong_x_pos = random.randint(0,screen_width - ddong_width)
                 ddong_y_pos = 0
-                jordany_y_pos += jordany_speed
+                jordany_y_pos += jordany_speed * 1.5
             if bumerang_rect.colliderect(ddong2_rect):
                 ddong_count +=1
                 ddong2_speed +=0.4
                 ddong2_x_pos = random.randint(0,screen_width - ddong2_width)
                 ddong2_y_pos = 0
-                jordany_y_pos += jordany_speed
+                jordany_y_pos += jordany_speed * 1.5
             if bumerang_rect.colliderect(ddong3_rect):
                 ddong_count +=1
                 ddong3_speed +=0.6
                 ddong3_x_pos = random.randint(0,screen_width - ddong3_width)
                 ddong3_y_pos = 0
-                jordany_y_pos += jordany_speed
+                jordany_y_pos += jordany_speed * 1.5
             if bumerang_rect.colliderect(ddong4_rect):
                 ddong_count +=1
                 ddong4_speed +=1
                 ddong4_x_pos = random.randint(0,screen_width - ddong4_width)
                 ddong4_y_pos = 0
-                jordany_y_pos += jordany_speed
+                jordany_y_pos += jordany_speed * 1.5
             if character_rect.colliderect(bumerang_get_rect):
                 bumerang_get_on = True
                 bumerang_get_x_pos = character_x_pos + character_width/2 - bumerang_get_width/2
@@ -594,20 +615,5 @@ while _running:
             _running = False
 pygame.quit()
 
-#준비물 
 
-# background1.png -> 640x480
-# ddong.png jordany1.png venci.png -> 40x40
-# changyeop.png ->적당한 크기
-# 위 준비물을 pygame1_image 폴더에 넣으면 사용할 수 있다.
-
-
-# 서풍? 같은걸로
-# # 똥 위로 다 보내는 것 
-
-#그리고 이제 아이템 판정 어떻게 잘할수 있는지 알아보기
-
-# 무기 업그레이드
-#표창 25 -> 35 -> 45 로 하거나 아니면 여러 갈래
-#메테오 점점 크게
-# 부메랑도 커지게
+# 움직임이 끊기는데 해결 할 수 있는 방법을 찾아보자.
